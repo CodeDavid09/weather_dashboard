@@ -1,7 +1,14 @@
-h1 {
+body {  
     font-family: 'Playfair Display', serif;
+    
 }
 
-#major-cities {
-    list-style: none;
+.container-fluid {
+    background-color: lavender;}
+
+.futureCard, .currentCard {
+    background-color: rgb(47, 47, 69);
+}
+.col-12{
+    margin-top: 50px;
 }
