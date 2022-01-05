@@ -1,3 +1,7 @@
+// Lat and Lon are the coordinantes of a given location
+// all getElementById return an Element object representing the element whose id property matches the specified string
+// all querySelectorAll represent a list of the document's elements that match the specified group of selectors.
+
 var lat;
 var lon;
 var currentDataList = document.getElementById("currentDataList");
@@ -9,6 +13,7 @@ var saveBtnEl = document.getElementById('saveBtnEl');
 var savedBtn = document.querySelectorAll("saved")
 const Key = '3d0741af8fa712024c89a34a6e131537';
 
+// takes search, and (success) is defining the location by using the latitude and longitude
 function currentLocal() {
     if (searchCity == "") {
         navigator.geolocation.getCurrentPosition(success);
@@ -23,6 +28,7 @@ function currentLocal() {
     };
 };
 
+// uses the API to retrieve latitude and longitude of the city user searched
 function getLatLon() {
     fetch("https://api.openweathermap.org/geo/1.0/direct?q=" + searchCity + "&limit=3&appid=" + Key)
         .then(
@@ -31,7 +37,7 @@ function getLatLon() {
                     console.log("error with request:" + response.status);
                     return;
                 }
-
+// if the latitude and longitude exsist within the API, then parses that into the getWeather function. Otherwise, returns city not found.
                 response.json().then(function (data) {
                     console.log(data);
                     if (data.length !== 0) {
@@ -51,6 +57,7 @@ function getLatLon() {
 
 };
 
+// getWeather function takes latitude and longitude from previous function and fetches weather data from API
 function getWeather() {
     fetch('https://api.openweathermap.org/data/2.5/onecall?lat=' + lat + '&lon=' + lon + '&exclude=minutely,hourly,alerts,current&units=imperial&appid=' + Key)
         .then(function (response) {
@@ -61,6 +68,8 @@ function getWeather() {
         })
         .then(function (data) {
             console.log(data);
+
+        // using for loop to pull weather data from API for the 5 Day forecast
             for (i = 0; i < weatherULEl.length; i++) {
                 var tempDay = data.daily[i].temp.day;
                 var windSpeed = data.daily[i].wind_speed;
@@ -74,7 +83,8 @@ function getWeather() {
                 var year = date.getFullYear();
                 var dateFormatted = month.toString() + '/' + day.toString() + '/' + year.toString();
 
-
+                //  adding the formatting to display on website
+                // current day formatting 
                 if (i === 0) {
                     currentDataList.innerText = searchCity + "  (" + dateFormatted + ")";
                     weatherULEl[i].innerHTML = "<li><img src='https://openweathermap.org/img/wn/" + iconID.toString() + ".png'></li><li>Temp: " + tempDay.toString() + "</li> <li>Wind: " + windSpeed.toString() + " MPH</li> <li>Humidity: " + humid.toString() + "%</li> <li id='uvI'>UV Index: " + uvIndex.toString() + "</li>";
@@ -90,13 +100,15 @@ function getWeather() {
                         uvIEl.classList.add("medium");
                     }
                 }
+                // 5 day forecast formatting
                 else {
                     weatherULEl[i].innerHTML = "<li><label>Date:</label>" + dateFormatted + "</li> <li><img src='https://openweathermap.org/img/wn/" + iconID.toString() + ".png'></li> <li>Temp: " + tempDay.toString() + "</li> <li>Wind: " + windSpeed.toString() + " MPH</li> <li>Humidity: " + humid.toString() + "%</li>"
                 }
             };
         });
 };
-
+// if undefined then search will not be saved, but will be saved if defined
+// makeSavedBtns list of saved search local storage used to not lose previous search.
 function savedSearches() {
     if (localStorage.savedCity == undefined) {
         var savedCity = [searchCity];
@@ -139,7 +151,7 @@ makeSavedBtns();
 var savedBtn = document.getElementsByClassName("saved");
 findBtns();
 
-
+// search btn functionality
 searchBtn.addEventListener("click", function () {
     console.log("clicked");
     searchCity = searchCityEl.value;
@@ -151,7 +163,7 @@ searchBtn.addEventListener("click", function () {
     };
 });
 
-
+// click functionality for makeSavedBtns
 function findBtns() {
     Array.from(savedBtn).forEach(function (index) {
         index.addEventListener("click", function () {
