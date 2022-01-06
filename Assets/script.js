@@ -109,6 +109,7 @@ function getWeather() {
 };
 // if undefined then search will not be saved, but will be saved if defined
 // makeSavedBtns list of saved search local storage used to not lose previous search.
+// localstorage is used here to prevent losing previous search 
 function savedSearches() {
     if (localStorage.savedCity == undefined) {
         var savedCity = [searchCity];
@@ -123,7 +124,7 @@ function savedSearches() {
     };
     makeSavedBtns();
 };
-
+// if the savedCity is defined then it will create the button for that city as a saved search
 function makeSavedBtns() {
     if (localStorage.savedCity != undefined) {
         var currentList = localStorage.savedCity
