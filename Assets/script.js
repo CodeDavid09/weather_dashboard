@@ -1,3 +1,10 @@
+// Sources I used to help me better understand this assignment there was a few others bnut dont remember the links 
+// https://openjsf.org/blog/2020/03/24/tutorial-use-the-weather-companys-apis-to-build-a-node-red-weather-dashboard/
+// https://code-projects.org/weather-dashboard-in-javascript-with-source-code/     *video on this site is saying unavailable now 
+// Boyfriend knows javascript i did have his help writing ome of the code as well
+
+
+
 // Lat and Lon are the coordinantes of a given location
 // all getElementById return an Element object representing the element whose id property matches the specified string
 // all querySelectorAll represent a list of the document's elements that match the specified group of selectors.
